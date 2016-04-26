@@ -102,7 +102,6 @@ public:
             while(i--){
                 x = r;
                 y = c;
-
                 step = 5;
                 while( step-- && x>=0 && y>=0 && y<mapH ){
                     xx = x - moves[i][0] *4;
