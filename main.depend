@@ -1,0 +1,147 @@
+# depslib dependency file v1.0
+1456305791 source:c:\d\dokumentumok\pázmány\2. félév\codeblocks\main.cpp
+	<iostream>
+	<math.h>
+	<time.h>
+	"graphics.hpp"
+	<vector>
+	<cstdlib>
+
+1455014550 c:\d\dokumentumok\pázmány\2. félév\codeblocks\include\graphics.hpp
+	<string>
+
+1457981264 source:c:\d\dokumentumok\pázmány\2. félév\codeblocks\órai\main.cpp
+	<iostream>
+	<fstream>
+	<math.h>
+	<time.h>
+	"graphics.hpp"
+	<vector>
+	<cstdlib>
+
+1455014550 c:\d\dokumentumok\pázmány\2. félév\codeblocks\órai\include\graphics.hpp
+	<string>
+
+1458231097 source:c:\d\dokumentumok\pázmány\2. félév\codeblocks\inga\main.cpp
+	<iostream>
+	<fstream>
+	<math.h>
+	<time.h>
+	"graphics.hpp"
+	<vector>
+	<cstdlib>
+
+1455014550 c:\d\dokumentumok\pázmány\2. félév\codeblocks\inga\include\graphics.hpp
+	<string>
+
+1460540532 source:c:\d\dokumentumok\pázmány\2. félév\codeblocks\widgetek\main.cpp
+	"graphics.hpp"
+	<cstdlib>
+	<iostream>
+	<sstream>
+	<fstream>
+	<vector>
+	<cmath>
+	<string>
+	"bb_widget.h"
+	"bb_dropdown.h"
+	"bb_inputtext.h"
+	"bb_inputnumber.h"
+	"bb_button.h"
+	"bb_label.h"
+	"bb_checkbox.h"
+
+1455018150 c:\d\dokumentumok\pázmány\2. félév\codeblocks\widgetek\include\graphics.hpp
+	<string>
+
+1459854132 c:\d\dokumentumok\pázmány\2. félév\codeblocks\widgetek\include\komplex.hpp
+
+1460119452 source:c:\d\dokumentumok\pázmány\2. félév\codeblocks\bead2\main.cpp
+	"graphics.hpp"
+	<cstdlib>
+	<iostream>
+	<sstream>
+	<fstream>
+	<vector>
+	<cmath>
+	<string>
+	"bb_widget.h"
+
+1455018150 c:\d\dokumentumok\pázmány\2. félév\codeblocks\bead2\include\graphics.hpp
+	<string>
+
+1460018681 c:\d\dokumentumok\pázmány\2. félév\codeblocks\bead2\include\bb_inputtext.h
+
+1460119402 c:\d\dokumentumok\pázmány\2. félév\codeblocks\bead2\include\bb_widget.h
+	<functional>
+
+1460540526 c:\d\dokumentumok\pázmány\2. félév\codeblocks\widgetek\include\bb_widget.h
+	<map>
+	<functional>
+
+1460539008 c:\d\dokumentumok\pázmány\2. félév\codeblocks\widgetek\include\bb_dropdown.h
+
+1460539022 c:\d\dokumentumok\pázmány\2. félév\codeblocks\widgetek\include\bb_inputtext.h
+
+1460539025 c:\d\dokumentumok\pázmány\2. félév\codeblocks\widgetek\include\bb_inputnumber.h
+
+1460539028 c:\d\dokumentumok\pázmány\2. félév\codeblocks\widgetek\include\bb_button.h
+
+1460539032 c:\d\dokumentumok\pázmány\2. félév\codeblocks\widgetek\include\bb_label.h
+
+1460540298 c:\d\dokumentumok\pázmány\2. félév\codeblocks\widgetek\include\bb_checkbox.h
+
+1461252108 source:c:\d\dokumentumok\pázmány\2. félév\codeblocks\gomoku\main.cpp
+	"graphics.hpp"
+	<cstdlib>
+	<iostream>
+	<sstream>
+	<vector>
+	<string>
+	<math.h>
+	<time.h>
+	"widget.h"
+	"label.h"
+	"box.h"
+	"button.h"
+	"game.h"
+
+1455018150 c:\d\dokumentumok\pázmány\2. félév\codeblocks\gomoku\include\graphics.hpp
+	<string>
+
+1461594746 c:\d\dokumentumok\pázmány\2. félév\codeblocks\gomoku\include\game.h
+	<thread>
+	"ai.h"
+
+1461594490 c:\d\dokumentumok\pázmány\2. félév\codeblocks\gomoku\include\widget.h
+	<map>
+	<functional>
+
+1460891410 c:\d\dokumentumok\pázmány\2. félév\codeblocks\gomoku\include\box.h
+
+1461248770 c:\d\dokumentumok\pázmány\2. félév\codeblocks\gomoku\include\button.h
+
+1461665780 c:\d\dokumentumok\pázmány\2. félév\codeblocks\gomoku\include\ai.h
+	<limits>
+	<algorithm>
+	<functional>
+
+1461594486 c:\d\dokumentumok\pázmány\2. félév\codeblocks\gomoku\include\label.h
+
+1461251162 c:\d\dokumentumok\pázmány\2. félév\codeblocks\gomoku\include\phtread.h
+	<windows.h>
+	"config.h"
+	<time.h>
+	<signal.h>
+	<limits.h>
+	"need_errno.h"
+	<errno.h>
+	<sched.h>
+	<sys/types.h>
+
+1461251201 c:\d\dokumentumok\pázmány\2. félév\codeblocks\gomoku\include\sched.h
+	"need_errno.h"
+	<errno.h>
+	<sys/types.h>
+	<time.h>
+

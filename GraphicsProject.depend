@@ -1,0 +1,9 @@
+# depslib dependency file v1.0
+1455273173 source:c:\d\dokumentumok\pázmány\2. félév\codeblocks\main.cpp
+	<iostream>
+	<math.h>
+	"graphics.hpp"
+
+1455014550 c:\d\dokumentumok\pázmány\2. félév\codeblocks\include\graphics.hpp
+	<string>
+
