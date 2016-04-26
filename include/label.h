@@ -10,7 +10,7 @@ public:
     Label();
     Label(string _name, unsigned _x, unsigned _y, string _caption = "") : Widget(_name, _x, _y, gout.twidth(_caption), 30){
         caption = _caption;
-        callback = [](){};
+        callback = [](){}; // Do nothing by default :)
     }
 
 

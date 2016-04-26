@@ -10,7 +10,7 @@ protected:
     int x, y, w, h;
     bool visible = true;
     bool hovered = false;
-    function<void()> callback = [](){};
+    function<void()> callback = []()->void{};
     string name;
 
 
@@ -50,10 +50,15 @@ public:
     virtual bool handle(event ev) = 0;
 };
 
+
+// Storage
 vector<Widget*> Widget::widgets;
 map<string, Widget*> Widget::$;
 
 
+
+
+// Event loop
 void Widget::handleWidgets(event ev){
     for( Widget *w : Widget::widgets ){
         if( !w->isVisible() )
@@ -68,6 +73,8 @@ void Widget::handleWidgets(event ev){
                 w->setHovered(true);
             }
         }
+
+        // onClick event
         if( ev.button == btn_left ){
             if( ev.pos_x >= w->getX() && ev.pos_x < w->getX()+w->getW() &&
                 ev.pos_y >= w->getY() && ev.pos_y < w->getY()+w->getH() ){
@@ -77,6 +84,7 @@ void Widget::handleWidgets(event ev){
 
 
         // Prevent double interaction
+        // If the given widget gives back true, we stop the loop
         if( w->handle(ev) )
             break;
     }

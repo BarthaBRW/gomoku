@@ -113,7 +113,7 @@
 	<thread>
 	"ai.h"
 
-1461594490 c:\d\dokumentumok\pázmány\2. félév\codeblocks\gomoku\include\widget.h
+1461669523 c:\d\dokumentumok\pázmány\2. félév\codeblocks\gomoku\include\widget.h
 	<map>
 	<functional>
 
@@ -121,12 +121,12 @@
 
 1461248770 c:\d\dokumentumok\pázmány\2. félév\codeblocks\gomoku\include\button.h
 
-1461665780 c:\d\dokumentumok\pázmány\2. félév\codeblocks\gomoku\include\ai.h
+1461672926 c:\d\dokumentumok\pázmány\2. félév\codeblocks\gomoku\include\ai.h
 	<limits>
 	<algorithm>
 	<functional>
 
-1461594486 c:\d\dokumentumok\pázmány\2. félév\codeblocks\gomoku\include\label.h
+1461669437 c:\d\dokumentumok\pázmány\2. félév\codeblocks\gomoku\include\label.h
 
 1461251162 c:\d\dokumentumok\pázmány\2. félév\codeblocks\gomoku\include\phtread.h
 	<windows.h>

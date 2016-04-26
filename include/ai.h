@@ -7,10 +7,8 @@
 #include <functional>
 
 
-const int/*l*/ INFTY = INFINITY;
 
-
-struct mapPoint{
+struct AImapPoint{
     int r,
         c;
     int set = 0;
@@ -24,7 +22,7 @@ struct mapPoint{
     };
 };
 
-void copyMapPointVector(vector<mapPoint> &v1, const vector<vector<mapPoint>> &v2){
+void copyAImapPointVector(vector<AImapPoint> &v1, const vector<vector<AImapPoint>> &v2){
     v1.clear();
     for( int x=0; x<v2.size(); x++ ){
         for( int y=0; y<v2[x].size(); y++ ){
@@ -38,59 +36,50 @@ void copyMapPointVector(vector<mapPoint> &v1, const vector<vector<mapPoint>> &v2
 
 
 
-int mc = 0;
-int sum = 0;
-int setNum = 0;
-int/*l*/ alpha,
-     beta;
-
-//vector<mapPoint> scoreMap;
-vector<mapPoint> scoreQueue;
-vector<vector<mapPoint>> Map;
 
 
-//int boardBuff[mapW*mapH];
-int boardBuffArr[mapW*mapH] = {0};
-
-string bufstr;
-string bufToString(){
-    string res;
-    for( int i=0; i<mapW*mapH; i++ ){
-        res += boardBuffArr[i];
-    }
-    return res;
-}
 
 
-const int moves[4][2] = {
-    {-1, -1},
-    {-1, 0},
-    {0, -1},
-    {-1, 1}
-};
-
-const int coe[2] = {-2, 1};
-const int/*l*/ scores[6] = {0, 1, 10, 2000, 4000, 100000000000};
-const int totry[2] = {10, 10};
-const int _depth = 3;
 
 
-map<string, int> cache;
+
+
+
+
+
 
 
 
 class AI{
 private:
 
+    // AI settings
+    static int totry[2];
+    static int _depth;
+
+
+    // Basic consts
+    static int moves[4][2];
+    static int coe[2];
+    static int scores[6];
+
+    // Variables
+    static int mc, sum, round, alpha, beta;
+    static vector<AImapPoint> scoreQueue;
+    static vector<vector<AImapPoint>> Map;
+    static int boardBuffArr[mapW*mapH];// = {0};
+    static map<string, int> cache;
+    static string bufstr;
+    static string bufToString();
 
 
 public:
     static void init(){
         Map.clear();
         for( int x=0; x<mapW; x++ ){
-            vector<mapPoint> tmp;
+            vector<AImapPoint> tmp;
             for( int y=0; y<mapH; y++ ){
-                mapPoint a;
+                AImapPoint a;
                 a.r = x;
                 a.c = y;
                 tmp.push_back(a);
@@ -101,11 +90,11 @@ public:
     }
 
 
-    static void _updateMap(int r, int c, int num, bool remove){
+    static void updateMap(int r, int c, int num, bool remove){
         int i = 4;
         int x, y, step, xx, yy;
         int e, changes = 0;
-        int/*l*/ s;
+        int s;
         int tmp;
         if( !remove ){
             boardBuffArr[r*mapW+c] = num + 2;
@@ -235,20 +224,16 @@ public:
 
 
     static void simulate(int x, int y, int num){
-        //if( Map[x][y].valid )
-        //    return;
-        setNum++;
-        AI::_updateMap(x, y, num, false);
+        round++;
+        AI::updateMap(x, y, num, false);
     }
     static void desimulate(int x, int y, int num){
-        //if( Map[x][y].valid )
-        //    return;
-        AI::_updateMap(x, y, num, true);
-        setNum--;
+        AI::updateMap(x, y, num, true);
+        round--;
     }
 
 
-    static bool _sortMove(const mapPoint &a, const mapPoint &b){
+    static bool _sortMove(const AImapPoint &a, const AImapPoint &b){
         if( a.set > 0 )
             return true;
         if( b.set > 0 )
@@ -258,7 +243,7 @@ public:
         return false;
     }
 
-    static int/*l*/ nega(int x, int y, int depth, int/*l*/ b, int/*l*/ alpha){
+    static int nega(int x, int y, int depth, int b, int alpha){
         int i = 4;
         int num = depth%2;
 
@@ -266,9 +251,9 @@ public:
         bufstr = bufToString();
         if( cache[bufstr] )
             return cache[bufstr];
-        if( abs(sum) >= INFTY )
-            return -INFTY;
-        if( setNum == mapW*mapH )
+        if( abs(sum) >= INFINITY )
+            return -INFINITY;
+        if( round == mapW*mapH )//drawn
             return 0;
         else if( depth == 0 )
             return sum;
@@ -286,7 +271,7 @@ public:
         i = tmpQueue.size()-1;
         x = tmpQueue[i];
         y = tmpQueue[--i];
-        int/*l*/ score = -AI::nega(x, y, depth, -b, -alpha);
+        int score = -AI::nega(x, y, depth, -b, -alpha);
         AI::desimulate(x, y, depth%2);
         if( score > alpha ){
             bufstr = bufToString();
@@ -320,8 +305,8 @@ public:
 
 
     static void watch(int r, int c, int color){
-        AI::_updateMap(r, c, color, false); //0=player, 1=ai
-        setNum++;
+        AI::updateMap(r, c, color, false); //0=player, 1=ai
+        round++;
         sort( scoreQueue.begin(), scoreQueue.end(), AI::_sortMove );
         Map[r][c].valid = true;
     }
@@ -331,16 +316,14 @@ public:
         Pos bestpoint;
         cache.clear();
 
-        alpha = -INFTY;
-        beta = INFTY;
+        alpha = -INFINITY;
+        beta = INFINITY;
         int i = 20;
         int depth = _depth;
-
-
         vector<int> tmpQueue;
 
 
-        copyMapPointVector(scoreQueue, Map);
+        copyAImapPointVector(scoreQueue, Map);
 
         bestpoint.x = scoreQueue[0].r;
         bestpoint.y = scoreQueue[0].c;
@@ -349,20 +332,21 @@ public:
             tmpQueue.push_back(scoreQueue[i].c);
             tmpQueue.push_back(scoreQueue[i].r);
         }
+
         i = tmpQueue.size()-1;
         int x = tmpQueue[i];
         int y = tmpQueue[--i];
-        int/*l*/ b = beta;
-        int/*l*/ score = -AI::nega(x, y, depth, -b, -alpha);
+        int b = beta;
+
+        int score = -AI::nega(x, y, depth, -b, -alpha);
         AI::desimulate(x, y, depth%2);
 
+        /*
         if( score > alpha ){
             alpha = score;
             bestpoint.x = x;
             bestpoint.y = y;
         }
-
-        /*
         b = alpha+1;
         while( i-- ){
             x = tmpQueue[i];
@@ -383,6 +367,7 @@ public:
         */
 
 
+        // Sort by score
         int biggest = -INFINITY;
         int biggesti = -1;
         for( int i=0; i<scoreQueue.size(); i++ ){
@@ -406,5 +391,25 @@ public:
 
 };
 
+
+int AI::totry[2]     = {10, 10};
+int AI::_depth       = 3;
+int AI::moves[4][2]  = {{-1, -1},{-1, 0},{0, -1},{-1, 1}};
+int AI::coe[2]       = {-2, 1};
+int AI::scores[6]    = {0, 1, 10, 2000, 4000, 100000000000};
+int AI::boardBuffArr[mapW*mapH] = {0};
+
+int AI::mc, AI::sum, AI::round, AI::alpha, AI::beta;
+vector<AImapPoint> AI::scoreQueue;
+vector<vector<AImapPoint>> AI::Map;
+map<string, int> AI::cache;
+string AI::bufstr;
+string AI::bufToString(){
+    string res;
+    for( int i=0; i<mapW*mapH; i++ ){
+        res += AI::boardBuffArr[i];
+    }
+    return res;
+}
 
 #endif // AI_H_INCLUDED
