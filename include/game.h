@@ -163,13 +163,13 @@ void Game::onBoxClick(Widget *w){
         if( Game::pvp )
             Widget::$["l_state"]->setCaption( Game::turn?"Player 1 win":"Player 2 win" );
         else
-            Widget::$["l_state"]->setCaption( Game::turn?"You win:)":"You loose :/ You should try again :)" );
+            Widget::$["l_state"]->setCaption( Game::turn?"You win:)":"You lost :/ You should try again :)" );
 
         Game::finished = true;
         return;
     }
     if( Game::isDrawn() ){
-        Widget::$["l_label1"]->setCaption("Drawn. Try again.");
+        Widget::$["l_state"]->setCaption("Drawn. It was close :)");
         Game::finished = true;
         return;
     }
@@ -193,7 +193,8 @@ void Game::newGame(){
     Game::round = 0;
     Game::finished = false;
 
-    AI::init();
+    if( !Game::pvp )
+        AI::init();
 
     // Reset boxes
     for( Box *b : Game::boxes ){

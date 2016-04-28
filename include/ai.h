@@ -55,7 +55,7 @@ private:
 
     // AI settings
     static int totry[2];
-    static int _depth;
+    static int depth1, depth2, depth3;
 
 
     // Basic consts
@@ -76,6 +76,8 @@ private:
 public:
     static void init(){
         Map.clear();
+        round = 0;
+
         for( int x=0; x<mapW; x++ ){
             vector<AImapPoint> tmp;
             for( int y=0; y<mapH; y++ ){
@@ -317,53 +319,40 @@ public:
 
         alpha = -INFINITY;
         beta = INFINITY;
-        int i = 20;
-        int depth = _depth;
+        int i = 2;
+
+        int _depth = depth1;
+        /*if( round >= 20 )
+            _depth = depth3;
+        else */if( round >= 15 )
+            _depth = depth2;
+
+
         vector<int> tmpQueue;
 
 
         copyAImapPointVector(scoreQueue, Map);
 
-        bestpoint.x = scoreQueue[0].r;
-        bestpoint.y = scoreQueue[0].c;
+        //bestpoint.x = scoreQueue[0].r;
+        //bestpoint.y = scoreQueue[0].c;
 
         while(i--){
-            tmpQueue.push_back(scoreQueue[i].c);
-            tmpQueue.push_back(scoreQueue[i].r);
+            //tmpQueue.push_back(scoreQueue[i].c);
+            //tmpQueue.push_back(scoreQueue[i].r);
         }
 
-        i = tmpQueue.size()-1;
-        int x = tmpQueue[i];
-        int y = tmpQueue[--i];
+        tmpQueue.push_back(scoreQueue[0].c);
+        tmpQueue.push_back(scoreQueue[0].r);
+
+        //i = tmpQueue.size()-1;
+        //int x = tmpQueue[i];
+        int x = tmpQueue[1];
+        //int y = tmpQueue[--i];
+        int y = tmpQueue[0];
         int b = beta;
 
-        int score = -AI::nega(x, y, depth, -b, -alpha);
-        AI::desimulate(x, y, depth%2);
-
-        /*
-        if( score > alpha ){
-            alpha = score;
-            bestpoint.x = x;
-            bestpoint.y = y;
-        }
-        b = alpha+1;
-        while( i-- ){
-            x = tmpQueue[i];
-            y = tmpQueue[--i];
-            score = -AI::nega(x, y, depth, -b, -alpha);
-            AI::desimulate(x, y, depth%2);
-            if( alpha < score && score < beta ){
-                score = -AI::nega(x, y, depth, -beta, -alpha);
-                AI::desimulate(x, y, depth%2);
-            }
-            if( score > alpha ){
-                alpha = score;
-                bestpoint.x = x;
-                bestpoint.y = y;
-            }
-            b = alpha+1;
-        }
-        */
+        -AI::nega(x, y, _depth, -b, -alpha);
+        AI::desimulate(x, y, _depth%2);
 
 
         // Sort by score
@@ -381,6 +370,7 @@ public:
         bestpoint.x = scoreQueue[biggesti].r;
         bestpoint.y = scoreQueue[biggesti].c;
 
+
         return bestpoint;
     }
 
@@ -392,7 +382,10 @@ public:
 
 
 int AI::totry[2]     = {10, 10};
-int AI::_depth       = 3;
+int AI::depth1       = 3;
+int AI::depth2       = 4;
+int AI::depth3       = 5;
+
 int AI::moves[4][2]  = {{-1, -1},{-1, 0},{0, -1},{-1, 1}};
 int AI::coe[2]       = {-2, 1};
 int AI::scores[6]    = {0, 1, 10, 2000, 4000, 100000000000};
