@@ -5,6 +5,19 @@
 #include <functional>
 
 
+// Convert int to str
+string inttostr(int i){
+    ostringstream os;
+    os << i;
+    return os.str();
+}
+struct Pos{
+    int x, y;
+};
+
+
+
+
 class Widget{
 protected:
     int x, y, w, h;

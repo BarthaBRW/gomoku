@@ -1,7 +1,6 @@
 #ifndef GAME_H_INCLUDED
 #define GAME_H_INCLUDED
 
-#include <thread>
 
 class Game{
 private:
@@ -33,7 +32,7 @@ public:
 vector<Box*> Game::boxes;
 bool Game::turn                 = true;
 unsigned char Game::state       = 1;
-bool Game::pvp                  = true;
+bool Game::pvp                  = false;
 int Game::round                 = 0;
 bool Game::finished             = false;
 
@@ -44,7 +43,7 @@ bool Game::finished             = false;
  * AI
  */
 
-#include "ai.h"
+
 
 void Game::moveAI(){
     Pos p = AI::move();
@@ -174,7 +173,7 @@ void Game::onBoxClick(Widget *w){
         return;
     }
 
-    //Game::turn = Game::turn ? false : true;
+    Game::turn = Game::turn ? false : true;
     Game::round++;
 
     // AI turn after player click

@@ -91,7 +91,7 @@
 
 1460540298 c:\d\dokumentumok\pázmány\2. félév\codeblocks\widgetek\include\bb_checkbox.h
 
-1461834051 source:c:\d\dokumentumok\pázmány\2. félév\codeblocks\gomoku\main.cpp
+1462007026 source:c:\d\dokumentumok\pázmány\2. félév\codeblocks\gomoku\main.cpp
 	"graphics.hpp"
 	<cstdlib>
 	<iostream>
@@ -104,16 +104,15 @@
 	"label.h"
 	"box.h"
 	"button.h"
+	"ai.h"
 	"game.h"
 
 1455018150 c:\d\dokumentumok\pázmány\2. félév\codeblocks\gomoku\include\graphics.hpp
 	<string>
 
-1461932266 c:\d\dokumentumok\pázmány\2. félév\codeblocks\gomoku\include\game.h
-	<thread>
-	"ai.h"
+1462007313 c:\d\dokumentumok\pázmány\2. félév\codeblocks\gomoku\include\game.h
 
-1461669523 c:\d\dokumentumok\pázmány\2. félév\codeblocks\gomoku\include\widget.h
+1462007051 c:\d\dokumentumok\pázmány\2. félév\codeblocks\gomoku\include\widget.h
 	<map>
 	<functional>
 
@@ -121,7 +120,7 @@
 
 1461248770 c:\d\dokumentumok\pázmány\2. félév\codeblocks\gomoku\include\button.h
 
-1461931113 c:\d\dokumentumok\pázmány\2. félév\codeblocks\gomoku\include\ai.h
+1462007769 c:\d\dokumentumok\pázmány\2. félév\codeblocks\gomoku\include\ai.h
 	<limits>
 	<algorithm>
 	<functional>

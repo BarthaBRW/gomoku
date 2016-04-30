@@ -12,12 +12,6 @@ using namespace std;
 
 
 
-// Convert int to str
-string inttostr(int i){
-    ostringstream os;
-    os << i;
-    return os.str();
-}
 
 
 
@@ -35,34 +29,20 @@ const unsigned char COLOR_BG2[3]            = {22, 43, 64}; // Hovered
 const unsigned char COLOR_BOX_BORDER[3]     = {34, 52, 70};
 const unsigned char COLOR_BOX_MARK[3]       = {189, 195, 199};
 
-struct Pos{
-    int x, y;
-};
-
 
 
 #include "widget.h"
 #include "label.h"
 #include "box.h"
 #include "button.h"
+
+#include "ai.h"
 #include "game.h"
 
 
 
 
-
-
-
-
-
-
-
-
-
 int main(){
-    srand(time(0));
-
     Game::init();
-
     return 0;
 }
