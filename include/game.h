@@ -33,7 +33,7 @@ public:
 vector<Box*> Game::boxes;
 bool Game::turn                 = true;
 unsigned char Game::state       = 1;
-bool Game::pvp                  = false;
+bool Game::pvp                  = true;
 int Game::round                 = 0;
 bool Game::finished             = false;
 
@@ -48,7 +48,7 @@ bool Game::finished             = false;
 
 void Game::moveAI(){
     Pos p = AI::move();
-    AI::watch(p.x, p.y, 1); // AI 1+1=2
+    AI::step(p.x, p.y, 1); // AI 1+1=2
     Game::onBoxClick( Game::getPos(p.x, p.y) );
 }
 
@@ -174,13 +174,13 @@ void Game::onBoxClick(Widget *w){
         return;
     }
 
-    Game::turn = Game::turn ? false : true;
+    //Game::turn = Game::turn ? false : true;
     Game::round++;
 
     // AI turn after player click
     if( !Game::pvp && !Game::turn ){//Player click
         Pos p = w->getPos();
-        AI::watch(p.x, p.y, 0); // Player 0+1=
+        AI::step(p.x, p.y, 0); // Player 0+1=
         Game::moveAI();
     }
 

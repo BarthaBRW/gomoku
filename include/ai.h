@@ -22,40 +22,12 @@ struct AImapPoint{
     };
 };
 
-void copyAImapPointVector(vector<AImapPoint> &v1, const vector<vector<AImapPoint>> &v2){
-    v1.clear();
-    for( int x=0; x<v2.size(); x++ ){
-        for( int y=0; y<v2[x].size(); y++ ){
-            v1.push_back(v2[x][y]);
-        }
-    }
-}
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 class AI{
 private:
 
     // AI settings
     static int totry[2];
-    static int depth1, depth2, depth3;
+    static int depth1;
 
 
     // Basic consts
@@ -91,66 +63,23 @@ public:
         }
     }
 
+    static void copyMapToScoreQueue(vector<AImapPoint> &v1, const vector<vector<AImapPoint>> &v2){
+        v1.clear();
+        for( int x=0; x<v2.size(); x++ ){
+            for( int y=0; y<v2[x].size(); y++ ){
+                v1.push_back(v2[x][y]);
+            }
+        }
+    }
+
+
 
     static void updateMap(int r, int c, int num, bool remove){
         int i = 4;
-        int x, y, step, xx, yy;
-        int e, changes = 0;
-        int s;
-        int tmp;
-        if( !remove ){
-            boardBuffArr[r*mapW+c] = num + 2;
-            Map[r][c].set = num + 1;
-            while(i--){
-                x = r;
-                y = c;
-                step = 5;
-                while( step-- && x>=0 && y>=0 && y<mapH ){
-                    xx = x - moves[i][0] *4;
-                    yy = y - moves[i][1] *4;
-                    if( xx >= mapW || yy <0 || yy >= mapH ){
-                        x += moves[i][0];
-                        y += moves[i][1];
-                        continue;
-                    }
-                    if( Map[x][y].info[i][2] > 0 ){
-                        tmp = 5;
-                        xx = x;
-                        yy = y;
-                        s = scores[ Map[x][y].info[i][2] ];
-                        changes -= s * Map[x][y].info[i][3];
-                        while( tmp-- ){
-                            Map[xx][yy].score -= s;
-                            xx -= moves[i][0];
-                            yy -= moves[i][1];
-                        }
-                    }
-                    Map[x][y].info[i][num]++;
-                    if( Map[x][y].info[i][1-num] > 0 )
-                        Map[x][y].info[i][2] = 0;
-                    else{
-                        Map[x][y].info[i][2] = Map[x][y].info[i][num];
-                        e = coe[num];
-                        Map[x][y].info[i][3] = e;
-                        s = scores[ Map[x][y].info[i][2] ];
-                        tmp = 5;
-                        xx = x;
-                        yy = y;
-                        changes += s * Map[x][y].info[i][3];
-                        while( tmp-- ){
-                            Map[xx][yy].score += s;
-                            xx -= moves[i][0];
-                            yy -= moves[i][1];
-                        }
-                    }
-                    x += moves[i][0];
-                    y += moves[i][1];
-                }
-            }
-        }
-        else{
+        int changes = 0;
+        int x, y, step, xx, yy, e, s, tmp;
+        if( remove ){
             boardBuffArr[r * mapW + c] = 0;
-
             Map[r][c].set = 0;
             while( i-- ){
                 x = r;
@@ -220,16 +149,67 @@ public:
                 }
             }
         }
+        else{
+            boardBuffArr[r*mapW+c] = num + 2;
+            Map[r][c].set = num + 1;
+            while(i--){
+                x = r;
+                y = c;
+                step = 5;
+                while( step-- && x>=0 && y>=0 && y<mapH ){
+                    xx = x - moves[i][0] *4;
+                    yy = y - moves[i][1] *4;
+                    if( xx >= mapW || yy <0 || yy >= mapH ){
+                        x += moves[i][0];
+                        y += moves[i][1];
+                        continue;
+                    }
+                    if( Map[x][y].info[i][2] > 0 ){
+                        tmp = 5;
+                        xx = x;
+                        yy = y;
+                        s = scores[ Map[x][y].info[i][2] ];
+                        changes -= s * Map[x][y].info[i][3];
+                        while( tmp-- ){
+                            Map[xx][yy].score -= s;
+                            xx -= moves[i][0];
+                            yy -= moves[i][1];
+                        }
+                    }
+                    Map[x][y].info[i][num]++;
+                    if( Map[x][y].info[i][1-num] > 0 )
+                        Map[x][y].info[i][2] = 0;
+                    else{
+                        Map[x][y].info[i][2] = Map[x][y].info[i][num];
+                        e = coe[num];
+                        Map[x][y].info[i][3] = e;
+                        s = scores[ Map[x][y].info[i][2] ];
+                        tmp = 5;
+                        xx = x;
+                        yy = y;
+                        changes += s * Map[x][y].info[i][3];
+                        while( tmp-- ){
+                            Map[xx][yy].score += s;
+                            xx -= moves[i][0];
+                            yy -= moves[i][1];
+                        }
+                    }
+                    x += moves[i][0];
+                    y += moves[i][1];
+                }
+            }
+        }
+
         sum += changes;
     }
 
 
     static void simulate(int x, int y, int num){
         round++;
-        AI::updateMap(x, y, num, false);
+        updateMap(x, y, num, false);
     }
     static void desimulate(int x, int y, int num){
-        AI::updateMap(x, y, num, true);
+        updateMap(x, y, num, true);
         round--;
     }
 
@@ -244,14 +224,16 @@ public:
         return false;
     }
 
-    static int nega(int x, int y, int depth, int b, int alpha){
+    static int calc(int x, int y, int depth, int b, int alpha){
         int i = 4;
         int num = depth%2;
 
-        AI::simulate(x, y, num);
+        simulate(x, y, num);
         bufstr = bufToString();
-        if( cache[bufstr] )
+        if( cache[bufstr] ){
+            cout << "return cache"<<endl;
             return cache[bufstr];
+        }
         if( abs(sum) >= INFINITY )
             return -INFINITY;
         if( round == mapW*mapH )//drawn
@@ -259,7 +241,7 @@ public:
         else if( depth == 0 )
             return sum;
 
-        sort( scoreQueue.begin(), scoreQueue.end(), AI::_sortMove );
+        sort( scoreQueue.begin(), scoreQueue.end(), _sortMove );
         i = totry[num];
 
         vector<int> tmpQueue;
@@ -272,8 +254,8 @@ public:
         i = tmpQueue.size()-1;
         x = tmpQueue[i];
         y = tmpQueue[--i];
-        int score = -AI::nega(x, y, depth, -b, -alpha);
-        AI::desimulate(x, y, depth%2);
+        int score = -calc(x, y, depth, -b, -alpha);
+        desimulate(x, y, depth%2);
         if( score > alpha ){
             bufstr = bufToString();
             cache[bufstr] = score;
@@ -288,11 +270,11 @@ public:
         while( i-- ){
             x = tmpQueue[i];
             y = tmpQueue[--i];
-            score = -AI::nega(x, y, depth, -b, -alpha);
-            AI::desimulate(x, y, depth%2);
+            score = -calc(x, y, depth, -b, -alpha);
+            desimulate(x, y, depth%2);
             if( alpha<score && score < beta ){
-                score = -AI::nega(x, y, depth, -beta, -alpha);
-                AI::desimulate(x, y, depth%2);
+                score = -calc(x, y, depth, -beta, -alpha);
+                desimulate(x, y, depth%2);
             }
             if( score > alpha )
                 alpha = score;
@@ -305,55 +287,16 @@ public:
 
 
 
-    static void watch(int r, int c, int color){
-        AI::updateMap(r, c, color, false); //0=player, 1=ai
+    static void step(int r, int c, int color){
+        updateMap(r, c, color, false); //0=player, 1=ai
         round++;
-        sort( scoreQueue.begin(), scoreQueue.end(), AI::_sortMove );
+        sort( scoreQueue.begin(), scoreQueue.end(), _sortMove );
         Map[r][c].valid = true;
     }
 
 
-    static Pos move(){
+    static Pos sortbest(){
         Pos bestpoint;
-        cache.clear();
-
-        alpha = -INFINITY;
-        beta = INFINITY;
-        int i = 2;
-
-        int _depth = depth1;
-        /*if( round >= 20 )
-            _depth = depth3;
-        else */if( round >= 15 )
-            _depth = depth2;
-
-
-        vector<int> tmpQueue;
-
-
-        copyAImapPointVector(scoreQueue, Map);
-
-        //bestpoint.x = scoreQueue[0].r;
-        //bestpoint.y = scoreQueue[0].c;
-
-        while(i--){
-            //tmpQueue.push_back(scoreQueue[i].c);
-            //tmpQueue.push_back(scoreQueue[i].r);
-        }
-
-        tmpQueue.push_back(scoreQueue[0].c);
-        tmpQueue.push_back(scoreQueue[0].r);
-
-        //i = tmpQueue.size()-1;
-        //int x = tmpQueue[i];
-        int x = tmpQueue[1];
-        //int y = tmpQueue[--i];
-        int y = tmpQueue[0];
-        int b = beta;
-
-        -AI::nega(x, y, _depth, -b, -alpha);
-        AI::desimulate(x, y, _depth%2);
-
 
         // Sort by score
         int biggest = -INFINITY;
@@ -370,21 +313,35 @@ public:
         bestpoint.x = scoreQueue[biggesti].r;
         bestpoint.y = scoreQueue[biggesti].c;
 
-
         return bestpoint;
     }
 
 
+    static Pos move(){
+        // Clear cache..
+        cache.clear();
 
+        // Copy map to tmp score vector
+        copyMapToScoreQueue(scoreQueue, Map);
 
+        // Quick sort
+        Pos bestpoint = sortbest();
 
+        // New scores and predict - idk why it gets the bestpoint O.o
+        calc(bestpoint.x, bestpoint.y, depth1, -INFINITY, INFINITY);
+
+        // Back to the present :)
+        desimulate(bestpoint.x, bestpoint.y, depth1%2);
+
+        // Gotcha'
+        return sortbest();
+    }
 };
 
 
-int AI::totry[2]     = {10, 10};
+int AI::totry[2]     = {15, 15};
 int AI::depth1       = 3;
-int AI::depth2       = 4;
-int AI::depth3       = 5;
+
 
 int AI::moves[4][2]  = {{-1, -1},{-1, 0},{0, -1},{-1, 1}};
 int AI::coe[2]       = {-2, 1};
@@ -399,7 +356,7 @@ string AI::bufstr;
 string AI::bufToString(){
     string res;
     for( int i=0; i<mapW*mapH; i++ ){
-        res += AI::boardBuffArr[i];
+        res += inttostr( boardBuffArr[i] );
     }
     return res;
 }
